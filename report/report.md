@@ -95,7 +95,7 @@ Of the 69 groups that receive incidents first, one (Group 70) takes 12 885 incid
 | R10 Resolution holds (no Resolved to Active) | 24 918 | 263 (1.1 %) | returned to Active after resolution |
 | R11 Closed within 7 days of resolution | 23 362 | 2 672 (11.4 %) | most close 5 to 7 days after resolution |
 
-The tool enforces the core logic (R1, R3, R9 are clean), so the gaps are in what people fill in: 6 % of closed incidents carry no resolution time, which also removes them from any resolution-time report.
+The tool enforces the core logic (R1, R3, R9 are clean), while some closure data is incomplete: 6 % of closed incidents carry no resolution time, which removes them from reports based on resolution time. The data does not show whether the gap comes from manual entry, the workflow or the export.
 
 ### 4.5 Priority overview
 
@@ -136,7 +136,7 @@ The same file ranks categories by how often they are passed on (priority 3, cate
 ```
 python load.py
 python run_all.py
-python verify.py
+python verify.py > results/verify_output.txt
 ```
 
 Requirements: Python 3 with matplotlib; SQLite 3.25 or newer (window functions). Data: `data/incident_event_log.csv` from the UCI repository; `load.py` creates `incidents.db` from it.

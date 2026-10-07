@@ -7,16 +7,16 @@ SQL analysis of a public IT incident log: 141,712 events, 24,918 incidents from 
 ## Findings
 - **More handoffs go with longer resolution and more SLA breaches.** Priority 3 incidents solved by the first group: median 1 hour, 26 % SLA breached. With 4 or more handoffs: 282 hours, 81 %.
 - **Handoff count is a stronger signal than ping-pong.** A return to an earlier group looks harmful mainly because those incidents have more handoffs; compared at the same number of handoffs, the differences become small and are not consistent. This suggests that getting the incident to the right group sooner matters more.
-- **The tool keeps its own logic clean; people's data entry does not.** 11 incident-management process and data-quality checks in SQL: the priority matrix, timestamps and SLA flag are clean, but 6.2 % of closed incidents carry no resolution time and drop out of reports based on it.
+- **Core system fields are internally consistent, while some closure data is incomplete.** 11 incident-management process and data-quality checks in SQL: the priority matrix, timestamps and SLA flag are clean, but 6.2 % of closed incidents carry no resolution time and drop out of reports based on it.
 - **Verified twice.** The headline numbers are recounted from the raw file without SQL (`verify.py`); all match.
 
 ## How a service desk could use this
 - `sql/04_kpi.sql` is a ready KPI pack: first-group resolution, handoffs, SLA, reopen rate, data completeness, knowledge-base use, plus a ranking of categories that are passed on most often.
-- `sql/02_rules.sql` is a set of data-quality checks that can run on any ServiceNow-style export.
+- `sql/02_rules.sql` is a set of data-quality checks that can be adapted to another ServiceNow-style export.
 
 ## Run it
 1. Download `incident_event_log.csv` from https://archive.ics.uci.edu/dataset/498 into `data/`.
-2. `python load.py` (reads the CSV and creates `incidents.db`), `python run_all.py` (all SQL, results, charts), `python verify.py` (independent recount).
+2. `python load.py` (reads the CSV and creates `incidents.db`), `python run_all.py` (all SQL, results, charts), `python verify.py > results/verify_output.txt` (independent recount, saved next to the SQL results).
 
 Requirements: Python 3 with matplotlib; SQLite 3.25+ (window functions).
 

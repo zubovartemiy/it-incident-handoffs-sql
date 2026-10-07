@@ -1,5 +1,6 @@
-incidents 24918 | closed without resolution time 1556
-handoffs 0: 13103 incidents, median 1.1 h, SLA breached 26.3 %
+incidents 24918 | closed without resolution time 1556 | without any support group 373
+priority 3 with resolution time and a group: 21644
+handoffs 0: 12737 incidents, median 1.1 h, SLA breached 26.3 %
 handoffs 1: 4929 incidents, median 39.8 h, SLA breached 40.5 %
 handoffs 2: 1885 incidents, median 119.8 h, SLA breached 60.1 %
 handoffs 3: 974 incidents, median 164.8 h, SLA breached 66.6 %
