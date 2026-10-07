@@ -14,7 +14,7 @@ TEXT = {
         "title": "What does a handoff cost a service desk?",
         "sub": "SQL analysis of a public IT incident log: 141 712 events, 24 918 incidents (ServiceNow export, UCI no. 498, CC BY 4.0). Personal project, October 2026.",
         "q": ("Question", "How much do handoffs between support groups cost in resolution time and SLA, and is ping-pong (a return to an earlier group) worse than a handoff to a new group?"),
-        "m": ("What I did", "Typed the raw event log and rebuilt, in SQL with window functions and CTEs, each incident's path through support groups. Compared medians and SLA breaches by number of handoffs (priority 3 only), compared ping-pong with forward-only paths at the same number of handoffs, and wrote 11 ITIL process and data rules as SQL checks. Verified the headline numbers with an independent recount from the raw file."),
+        "m": ("What I did", "Typed the raw event log and rebuilt, in SQL with window functions and CTEs, each incident's path through support groups. Compared medians and SLA breaches by number of handoffs (priority 3 only), compared ping-pong with forward-only paths at the same number of handoffs, wrote 11 ITIL process and data rules as SQL checks and a reusable service desk KPI pack. Verified the headline numbers with an independent recount from the raw file."),
         "r": ("Results", [
             "Solved by the first group: median 1 hour, SLA breached in 26 %. With 4 or more handoffs: 282 hours and 81 %.",
             "Ping-pong looks worse only because bounced incidents have more handoffs. At the same count the results are almost equal (2 handoffs: 60 % vs 60 % breached).",
@@ -28,7 +28,7 @@ TEXT = {
         "title": "Kolik stojí předání incidentu mezi skupinami?",
         "sub": "Analýza veřejného logu IT incidentů v SQL: 141 712 událostí, 24 918 incidentů (export ze ServiceNow, UCI č. 498, CC BY 4.0). Vlastní projekt, říjen 2026.",
         "q": ("Otázka", "Kolik stojí předání incidentu mezi skupinami podpory v čase řešení a v SLA a je „ping-pong“ (návrat do skupiny, kde už incident byl) horší než předání nové skupině?"),
-        "m": ("Postup", "Z logu událostí jsem v SQL (window funkce, CTE) zrekonstruoval cestu každého incidentu přes skupiny podpory. Porovnal jsem mediány a porušení SLA podle počtu předání (jen priorita 3), ping-pong s cestami bez návratu při stejném počtu předání a zapsal 11 pravidel procesu podle ITIL jako SQL kontroly. Hlavní čísla jsem ověřil nezávislým přepočtem z původního souboru."),
+        "m": ("Postup", "Z logu událostí jsem v SQL (window funkce, CTE) zrekonstruoval cestu každého incidentu přes skupiny podpory. Porovnal jsem mediány a porušení SLA podle počtu předání (jen priorita 3), ping-pong s cestami bez návratu při stejném počtu předání zapsal 11 pravidel procesu podle ITIL jako SQL kontroly a připravil sadu KPI pro service desk. Hlavní čísla jsem ověřil nezávislým přepočtem z původního souboru."),
         "r": ("Výsledky", [
             "Vyřešeno první skupinou: medián 1 hodina, SLA porušeno u 26 %. Při 4 a více předáních: 282 hodin a 81 %.",
             "Ping-pong vypadá hůř jen proto, že vrácené incidenty mají více předání. Při stejném počtu předání jsou výsledky téměř stejné (2 předání: 60 % proti 60 %).",

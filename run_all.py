@@ -18,7 +18,7 @@ for f in sorted((HERE / "sql").glob("*.sql")):
     print("ran", f.name)
 con.commit()
 
-for table in ["rule_results", "a_priority", "a_handoffs", "a_pingpong", "a_groups", "a_reassign_check"]:
+for table in ["rule_results", "a_priority", "a_handoffs", "a_pingpong", "a_groups", "a_reassign_check", "kpi_summary", "a_categories"]:
     cur = con.execute(f"SELECT * FROM {table}")
     with open(HERE / "results" / f"{table}.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)

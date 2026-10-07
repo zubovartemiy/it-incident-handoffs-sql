@@ -22,7 +22,7 @@ Five events with the state "-100" were dropped. Values such as priority or close
 
 ## 3. Method
 
-All logic is in four SQL files (`sql/`), run in order by `run_all.py`:
+All logic is in SQL files (`sql/`), run in order by `run_all.py`:
 
 | Step | What it does |
 |---|---|
@@ -30,6 +30,8 @@ All logic is in four SQL files (`sql/`), run in order by `run_all.py`:
 | `01_incidents.sql` | orders events, builds one row per incident, and each incident's path through support groups |
 | `02_rules.sql` | eleven rule checks, each returning cases checked and cases breaking the rule |
 | `03_analysis.sql` | handoff and ping-pong comparisons, group profile, priority overview |
+| `04_kpi.sql` | reusable service desk KPI pack and category ranking |
+| `verify.py` | independent recount of the headline numbers from the raw CSV, without SQL |
 
 **Definitions.**
 - *Handoff*: a change of assignment group between consecutive events. Repeated events in the same group count once.
@@ -99,6 +101,21 @@ The tool enforces the core logic (R1, R3, R9 are clean), so the gaps are in what
 
 Priority 1 and 2 incidents breach the SLA in 98 % and 99.5 % of cases, against 35.5 % for priority 3 and 15.9 % for priority 4. With only 270 and 408 such incidents and unknown SLA targets, this says more about how targets were set than about the teams; it would be the first thing to clarify with the service owner.
 
+### 4.6 A KPI pack a service desk can reuse
+
+`sql/04_kpi.sql` turns the analysis into monthly figures a team lead would watch, one row per KPI, so the same query can feed a dashboard:
+
+| KPI | Value |
+|---|---|
+| Resolved by the first group | 61.6 % |
+| Average handoffs per incident | 0.77 |
+| SLA breached | 36.6 % |
+| Reopened after resolution | 1.1 % |
+| Closed without resolution time | 6.2 % |
+| Knowledge base used | 14.3 % |
+
+The same file ranks categories by how often they are passed on (priority 3, categories with 300+ incidents). Category 23 is passed on in 83 % of cases and Categories 34, 40 and 57 in 63 to 69 %, while Category 35 stays with the first group in almost nine cases out of ten. These are the categories to review first when routing rules are discussed (`results/a_categories.csv`). The log cannot tell which group should have received them: the last group on an incident is often the first-line group that closes it, so the data supports where to look, not a ready routing rule.
+
 ## 5. Limits
 
 - One anonymised company, 2016 to 2017. Group, category and person names are codes, and SLA targets are not in the data.
@@ -118,6 +135,7 @@ Priority 1 and 2 incidents breach the SLA in 98 % and 99.5 % of cases, against 3
 ```
 python load.py
 python run_all.py
+python verify.py
 ```
 
 Requirements: Python 3 with matplotlib; SQLite 3.25 or newer (window functions). Data: `data/incident_event_log.csv` from the UCI repository.
