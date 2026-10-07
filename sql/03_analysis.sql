@@ -1,13 +1,14 @@
--- 04. Analysis: does passing an incident between groups cost time and SLA?
+-- 03. Analysis: how do handoffs between groups relate to resolution time and SLA?
 -- Main comparisons use priority 3 (Moderate) only: 94% of incidents, and it
--- removes the effect of priority itself. Medians, not averages: resolution
+-- removes the effect of priority itself. Incidents with no recorded support
+-- group are left out, because their path is unknown. Medians, not averages: resolution
 -- times are heavily skewed by a few very long incidents.
 
 -- Median hours per group of rows, done with window functions (SQLite has no MEDIAN).
 DROP VIEW IF EXISTS p3;
 CREATE VIEW p3 AS
 SELECT *, CASE WHEN handoffs >= 4 THEN '4+' ELSE CAST(handoffs AS TEXT) END AS handoff_band
-FROM inc WHERE priority = 3 AND hours_to_resolve IS NOT NULL;
+FROM inc WHERE priority = 3 AND hours_to_resolve IS NOT NULL AND first_group IS NOT NULL;
 
 DROP TABLE IF EXISTS a_handoffs;
 CREATE TABLE a_handoffs AS
@@ -52,7 +53,7 @@ FROM p3 WHERE first_group IS NOT NULL
 GROUP BY first_group HAVING COUNT(*) >= 200
 ORDER BY handed_on_pct DESC;
 
--- The overall picture by priority.
+-- The overall picture by priority (handoff shares only over incidents with a recorded group).
 DROP TABLE IF EXISTS a_priority;
 CREATE TABLE a_priority AS
 SELECT priority, COUNT(*) AS incidents,
@@ -65,4 +66,4 @@ FROM inc GROUP BY priority ORDER BY priority;
 DROP TABLE IF EXISTS a_reassign_check;
 CREATE TABLE a_reassign_check AS
 SELECT reassignment_count - handoffs AS difference, COUNT(*) AS incidents
-FROM inc GROUP BY 1 ORDER BY 1;
+FROM inc WHERE first_group IS NOT NULL GROUP BY 1 ORDER BY 1;

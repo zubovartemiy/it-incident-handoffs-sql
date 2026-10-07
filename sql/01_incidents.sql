@@ -60,13 +60,16 @@ FROM group_steps s
 GROUP BY s.number;
 
 -- Final analysis table: incidents plus their group path.
+-- 373 incidents never have an assignment group in the log. They are kept, but
+-- their path fields stay NULL: with no group recorded there is no "first group",
+-- so they must not be counted as solved without a handoff.
 DROP TABLE IF EXISTS inc;
 CREATE TABLE inc AS
 SELECT i.*,
-       COALESCE(p.handoffs, 0)       AS handoffs,
-       COALESCE(p.groups_visited, 0) AS groups_visited,
-       COALESCE(p.bounces, 0)        AS bounces,
+       p.handoffs,
+       p.groups_visited,
+       p.bounces,
        p.first_group,
-       CASE WHEN COALESCE(p.bounces, 0) > 0 THEN 1 ELSE 0 END AS ping_pong
+       CASE WHEN p.number IS NULL THEN NULL WHEN p.bounces > 0 THEN 1 ELSE 0 END AS ping_pong
 FROM incidents i
 LEFT JOIN group_path p USING (number);

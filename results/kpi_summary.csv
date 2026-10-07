@@ -1,8 +1,9 @@
 kpi,value,unit,how_computed
 Incidents,24918.0,count,all incidents in the log
-Resolved by the first group,61.6,%,no change of assignment group in the audit trail
-Average handoffs per incident,0.77,handoffs,changes of assignment group
+Resolved by the first group,61.0,%,"no change of assignment group, incidents with a recorded group"
+Average handoffs per incident,0.78,handoffs,"changes of assignment group, incidents with a recorded group"
 SLA breached,36.6,%,made_sla = 0 at the last event
 Reopened after resolution,1.1,%,reopen_count > 0
 Closed without resolution time,6.2,%,"data completeness, rule R4"
+Incidents without a support group,1.5,%,data completeness: no assignment group on any event
 Knowledge base used,14.3,%,knowledge flag at the last event

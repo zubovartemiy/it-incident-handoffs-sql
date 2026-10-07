@@ -1,4 +1,4 @@
--- 05. A reusable service desk KPI pack: the figures a team lead would watch every
+-- 04. A reusable service desk KPI pack: the figures a team lead would watch every
 -- month. Each KPI is one row, so the same query can feed a dashboard.
 
 DROP TABLE IF EXISTS kpi_summary;
@@ -9,10 +9,10 @@ SELECT 'Incidents', COUNT(*), 'count', 'all incidents in the log' FROM inc;
 
 INSERT INTO kpi_summary
 SELECT 'Resolved by the first group', ROUND(100.0 * AVG(handoffs = 0), 1), '%',
-       'no change of assignment group in the audit trail' FROM inc;
+       'no change of assignment group, incidents with a recorded group' FROM inc WHERE first_group IS NOT NULL;
 
 INSERT INTO kpi_summary
-SELECT 'Average handoffs per incident', ROUND(AVG(handoffs), 2), 'handoffs', 'changes of assignment group' FROM inc;
+SELECT 'Average handoffs per incident', ROUND(AVG(handoffs), 2), 'handoffs', 'changes of assignment group, incidents with a recorded group' FROM inc WHERE first_group IS NOT NULL;
 
 INSERT INTO kpi_summary
 SELECT 'SLA breached', ROUND(100.0 * SUM(made_sla = 0) / COUNT(*), 1), '%', 'made_sla = 0 at the last event' FROM inc;
@@ -22,6 +22,9 @@ SELECT 'Reopened after resolution', ROUND(100.0 * AVG(reopen_count > 0), 1), '%'
 
 INSERT INTO kpi_summary
 SELECT 'Closed without resolution time', ROUND(100.0 * AVG(resolved_at IS NULL), 1), '%', 'data completeness, rule R4' FROM inc;
+
+INSERT INTO kpi_summary
+SELECT 'Incidents without a support group', ROUND(100.0 * AVG(first_group IS NULL), 1), '%', 'data completeness: no assignment group on any event' FROM inc;
 
 INSERT INTO kpi_summary
 SELECT 'Knowledge base used', ROUND(100.0 * AVG(used_knowledge), 1), '%', 'knowledge flag at the last event' FROM inc;

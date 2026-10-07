@@ -16,6 +16,7 @@ with open("data/incident_event_log.csv", encoding="utf-8") as f:
 bands = defaultdict(lambda: [0, 0, []])
 pingpong = defaultdict(lambda: [0, 0])
 no_resolution = 0
+no_group = 0
 for evs in events.values():
     evs.sort(key=lambda e: e[:3])
     last = evs[-1][3]
@@ -25,9 +26,11 @@ for evs in events.values():
         g = e[3]["assignment_group"]
         if g != "?" and (not path or path[-1] != g):
             path.append(g)
-    handoffs = max(len(path) - 1, 0)
+    no_group += not path
+    handoffs = len(path) - 1
     bounced = any(path[k] in path[:k] for k in range(len(path)))
-    if last["priority"].startswith("3") and last["resolved_at"] != "?":
+    # Incidents with no recorded group have no known path and are left out, as in the SQL.
+    if path and last["priority"].startswith("3") and last["resolved_at"] != "?":
         hours = (datetime.strptime(last["resolved_at"], fmt) - datetime.strptime(last["opened_at"], fmt)).total_seconds() / 3600
         b = "4+" if handoffs >= 4 else str(handoffs)
         bands[b][0] += 1
@@ -37,7 +40,8 @@ for evs in events.values():
             pingpong[(handoffs, bounced)][0] += 1
             pingpong[(handoffs, bounced)][1] += last["made_sla"] == "false"
 
-print("incidents", len(events), "| closed without resolution time", no_resolution)
+print("incidents", len(events), "| closed without resolution time", no_resolution, "| without any support group", no_group)
+print("priority 3 with resolution time and a group:", sum(v[0] for v in bands.values()))
 for b in sorted(bands):
     n, breached, hours = bands[b]
     print(f"handoffs {b}: {n} incidents, median {statistics.median(hours):.1f} h, SLA breached {100 * breached / n:.1f} %")

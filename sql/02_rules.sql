@@ -1,4 +1,6 @@
--- 03. ITIL process and data rules, each as one SQL check.
+-- 02. Incident-management process and data-quality checks, each as one SQL query.
+-- Some follow common ITIL/ITSM concepts (priority matrix, resolve before close),
+-- others are data-quality checks specific to this log.
 -- Every rule returns: how many cases were checked and how many break it.
 -- made_sla = 1 means the SLA was still met (the flag only ever changes 1 -> 0,
 -- see R9), so a breach is made_sla = 0.
@@ -29,7 +31,7 @@ FROM ev;
 
 INSERT INTO rule_results
 SELECT 'R2', 'Priority stays the same during the incident', 'incident', COUNT(*),
-       SUM(n_prio > 1), 'reprioritisation is allowed in ITIL, but should be rare and explained'
+       SUM(n_prio > 1), 'reprioritisation can be valid, but should be explained'
 FROM (SELECT number, COUNT(DISTINCT priority) AS n_prio FROM ev GROUP BY number);
 
 INSERT INTO rule_results
@@ -68,15 +70,15 @@ WHERE state = 'Closed' AND prev_state NOT IN ('Closed', 'Resolved');
 INSERT INTO rule_results
 SELECT 'R9', 'An SLA breach is never undone (made_sla does not go 0 -> 1)', 'transition',
        (SELECT COUNT(*) FROM state_steps WHERE prev_sla IS NOT NULL AND prev_sla <> made_sla),
-       SUM(prev_sla = 0 AND made_sla = 1), 'also proves that made_sla = 1 means "SLA met"'
+       SUM(prev_sla = 0 AND made_sla = 1), 'supports reading made_sla = 1 as "SLA met"'
 FROM state_steps;
 
 INSERT INTO rule_results
 SELECT 'R10', 'A resolution holds (no Resolved -> Active)', 'incident', (SELECT COUNT(*) FROM inc),
-       COUNT(DISTINCT number), 'reopened after the user rejected the fix'
+       COUNT(DISTINCT number), 'returned to Active after being resolved'
 FROM state_steps WHERE prev_state = 'Resolved' AND state = 'Active';
 
 INSERT INTO rule_results
 SELECT 'R11', 'Closed within 7 days after resolution', 'incident', COUNT(*),
-       SUM(hours_resolved_to_closed > 168), 'most incidents auto-close 5 to 7 days after resolution'
+       SUM(hours_resolved_to_closed > 168), 'most incidents close 5 to 7 days after resolution'
 FROM inc WHERE resolved_at IS NOT NULL;
