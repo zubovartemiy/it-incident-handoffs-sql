@@ -17,4 +17,4 @@
 
 ---
 
-*Czech, for interviews:* Analyzoval jsem veřejný log incidentů ze ServiceNow, 24 918 incidentů. V SQL jsem rekonstruoval, přes které skupiny incident prošel, a ověřil 11 pravidel procesu podle ITIL. Každé předání mezi skupinami prodlužuje řešení a zvyšuje riziko porušení SLA: bez předání je medián hodina, se čtyřmi a více předáními přes 280 hodin.
+*Czech, for interviews:* Analyzoval jsem veřejný log incidentů ze ServiceNow, 24 918 incidentů. V SQL jsem rekonstruoval, přes které skupiny incident prošel, a ověřil 11 pravidel procesu podle ITIL a kvality dat. Každé předání mezi skupinami prodlužuje řešení a zvyšuje riziko porušení SLA: bez předání je medián hodina, se čtyřmi a více předáními přes 280 hodin.

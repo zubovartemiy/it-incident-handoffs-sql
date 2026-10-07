@@ -28,7 +28,7 @@ TEXT = {
         "title": "Kolik stojí předání incidentu mezi skupinami?",
         "sub": "Analýza veřejného logu IT incidentů v SQL: 141 712 událostí, 24 918 incidentů (export ze ServiceNow, UCI č. 498, CC BY 4.0). Vlastní projekt, říjen 2026.",
         "q": ("Otázka", "Kolik stojí předání incidentu mezi skupinami podpory v čase řešení a v SLA a je „ping-pong“ (návrat do skupiny, kde už incident byl) horší než předání nové skupině?"),
-        "m": ("Postup", "Z logu událostí jsem v SQL (window funkce, CTE) zrekonstruoval cestu každého incidentu přes skupiny podpory. Porovnal jsem mediány a porušení SLA podle počtu předání (jen priorita 3), ping-pong s cestami bez návratu při stejném počtu předání zapsal 11 pravidel procesu podle ITIL jako SQL kontroly a připravil sadu KPI pro service desk. Hlavní čísla jsem ověřil nezávislým přepočtem z původního souboru."),
+        "m": ("Postup", "Z logu událostí jsem v SQL (window funkce, CTE) zrekonstruoval cestu každého incidentu přes skupiny podpory. Porovnal jsem mediány a porušení SLA podle počtu předání (jen priorita 3), ping-pong s cestami bez návratu při stejném počtu předání zapsal 11 pravidel procesu podle ITIL a kvality dat jako SQL kontroly a připravil sadu KPI pro service desk. Hlavní čísla jsem ověřil nezávislým přepočtem z původního souboru."),
         "r": ("Výsledky", [
             "Vyřešeno první skupinou: medián 1 hodina, SLA porušeno u 26 %. Při 4 a více předáních: 282 hodin a 81 %.",
             "Ping-pong vypadá hůř jen proto, že vrácené incidenty mají více předání. Při stejném počtu předání jsou výsledky téměř stejné (2 předání: 60 % proti 60 %).",
