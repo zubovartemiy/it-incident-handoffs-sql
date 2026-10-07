@@ -1,0 +1,10 @@
+incidents 24918 | closed without resolution time 1556
+handoffs 0: 13103 incidents, median 1.1 h, SLA breached 26.3 %
+handoffs 1: 4929 incidents, median 39.8 h, SLA breached 40.5 %
+handoffs 2: 1885 incidents, median 119.8 h, SLA breached 60.1 %
+handoffs 3: 974 incidents, median 164.8 h, SLA breached 66.6 %
+handoffs 4+: 1119 incidents, median 281.6 h, SLA breached 81.4 %
+2 handoffs, forward only: 1179, SLA breached 60.4 %
+2 handoffs, back to earlier group: 706, SLA breached 59.6 %
+3 handoffs, forward only: 285, SLA breached 67.7 %
+3 handoffs, back to earlier group: 689, SLA breached 66.2 %

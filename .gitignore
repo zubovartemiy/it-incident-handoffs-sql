@@ -1,0 +1,6 @@
+incidents.db
+data/*.zip
+data/*.csv
+__pycache__/
+report/*.docx
+report/publish_drafts.md

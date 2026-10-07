@@ -1,0 +1,12 @@
+rule_id,rule,level,checked,violations,note
+R1,Priority matches the impact x urgency matrix,event,141707,0,"the system computes priority itself, so 0 is expected"
+R2,Priority stays the same during the incident,incident,24918,383,"reprioritisation is allowed in ITIL, but should be rare and explained"
+R3,Lifecycle order: opened <= resolved <= closed,incident,24918,0,
+R4,A closed incident has a resolution time,incident,24918,1556,closed without being resolved
+R5,A closed incident has a closure code,incident,24918,107,
+R6,A closed incident names who resolved it,incident,24918,99,
+R7,Closed is a final state (no activity after Closed),incident,24918,12,incident reopened from Closed instead of a new ticket
+R8,An incident is resolved before it is closed,transition,24930,14,"closed straight from New, Active or Awaiting"
+R9,An SLA breach is never undone (made_sla does not go 0 -> 1),transition,9114,0,"also proves that made_sla = 1 means ""SLA met"""
+R10,A resolution holds (no Resolved -> Active),incident,24918,263,reopened after the user rejected the fix
+R11,Closed within 7 days after resolution,incident,23362,2672,most incidents auto-close 5 to 7 days after resolution

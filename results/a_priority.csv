@@ -1,0 +1,5 @@
+priority,incidents,sla_breach_pct,handed_on_pct,ping_pong_pct
+1,270,98.1,56.3,8.9
+2,408,99.5,59.8,17.6
+3,23466,35.5,38.0,10.5
+4,774,15.9,34.6,9.3
